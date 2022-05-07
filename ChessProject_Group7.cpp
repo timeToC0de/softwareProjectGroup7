@@ -3,7 +3,6 @@
 // Date created: 4/23/2022
 /* Description: Main program where the chess session is run. */
 
-
 #include <iostream>
 #include <windows.h> // Needed to color the string that represent the pieces.
 #include "board.h"
@@ -11,79 +10,37 @@
 
 using namespace std;
 
-void startGame();
-void printInstructionMenu();
+void printInstructionMenu(); // Prints instructions.
 void changeTextColor(HANDLE& consoleColor, int textColorCode);
 
-void printHorizontalLines();
+//void printHorizontalLines();
 
 int main()
 {
+    bool isGameNotEnded = true;
+    cout << "Welcome to the Command Line Interface Chess Game!\n\n";
     // Start game.
     board gameBoard;
 
-    // Choose a color.
-
+    do { // Chess Game loop.
+        if (isGameNotEnded) {
+            isGameNotEnded = false; // False, game is now ended.
+        }
     // Move pieces.
 
-    //
+    } while (isGameNotEnded);
+
+   HANDLE consoleClr;
+   consoleClr = GetStdHandle(STD_OUTPUT_HANDLE);
+   int colorCode = 7; // 7 Prints a black background and text colored white.
+   changeTextColor(consoleClr, colorCode); // Changes text so the final lines will be in the standard black and white color.
 
     return 0;
-}
-void printHorizontalLines() {
-
-    int wSize = 33; // number of '-' symbols to be printed for the horizontal line of the board.
-    for (int width = 0; width < wSize; width++) {
-        cout << "-";
-    }
-    cout << "\n"; // Newline.
-    return;
-}
-
-// Used to inform the users about the game and to print the initial board.
-void startGame() {
-    int inputCounter = 0; // Used to prevent an infinite loop if the user fails to enter valid input.
-    bool isMenuPrinted = false;
-    char instructionChoice; // Used to control whether the instructions are printed.
-    cout << "Welcome to the Command Line Interface Chess Game!\n";
-
-    do {
-        cout << "Would you like to view the instructions for the CLI chess game? y/n? ";
-        cin >> instructionChoice; // Allows user to enter y or n to display the menu or not.
-        inputCounter++; // Keeps track of the number of times that the user has input 
-        instructionChoice = tolower(instructionChoice);
-        if (instructionChoice =='y' || instructionChoice =='n') {
-            if (instructionChoice == 'n') {
-                return; // Exits the function since user responded no.
-            } else
-                printInstructionMenu(); // Prints the instruction menu.
-            isMenuPrinted = true; // Causes input loop to exit.
-
-        } else if (inputCounter > 6) { // If the loop runs 5 times or more.
-            cout << "Improper input entered 5 times.\n"\
-                << "program is closing.\n";
-            exit(1); // Exits the program with err code 1.
-        }
-        cout << "\n";
-
-    } while (!isMenuPrinted); // Runs until the user enters y or n. May exit if the user fails to enter valid input for 5 iterations.
-    return; // Passes control back to calling function.
-}
-
-void printInstructionMenu() {
-    cout << "This chess game is played turn by turn between 2 players.\n"\
-        << "The player with the white pieces moves first.\n"\
-        << "There are 6 types of pieces, each piece is represented with an abbreviation of their name.\n"\
-        << ""\
-        << "The different pieces for 1 player are 8 pawns, 2 rooks(aka castles), 2 knights, 2 bishops, 1 queen, and 1 king.\n\n"\
-        <<"Pawns may move forward and not backwards. They may move 2 squares forwards if the particular pawn hasn't moved yet.\n"\
-        <<"";
 }
 
 void changeTextColor(HANDLE& consoleColor, int textColorCode) {
     SetConsoleTextAttribute(consoleColor, textColorCode); // Changes the text's color.
 }
-
 
 // Test code section:
 /*
