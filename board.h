@@ -1,7 +1,7 @@
 /*
 * Author(s): Luke P(Original Author), (Add Name here if you contribute(or fork) more to this file).
 * Date Created: End of April, 2022.
-* Dates Worked on: 5/3/2022, 5/4/2022, 5/5/2022, and(Add date(s) that you modified this file).
+* Dates Worked on: 5/3/2022, 5/4/2022, 5/5/2022, 5/6/2022, and(Add date(s) that you modified this file).
 * Course: SDEV265.
 * 
 Header file to Render game board for the chess CLI game.
