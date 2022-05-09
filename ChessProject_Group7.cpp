@@ -3,37 +3,32 @@
 // Date created: 4/23/2022
 /* Description: Main program where the chess session is run. */
 
+#pragma once
 #include <iostream>
-#include <windows.h> // Needed to color the string that represent the pieces.
-#include "board.h"
+#include <windows.h> // Used for the functions that control the color of the output.
+#include "Chess.h"
 //#include <iomanip> // For tolower() method to convert uppercase to lowercase.
 
 using namespace std;
 
-void printInstructionMenu(); // Prints instructions.
 void changeTextColor(HANDLE& consoleColor, int textColorCode);
 
 //void printHorizontalLines();
 
 int main()
 {
-    bool isGameNotEnded = true;
+    bool isGameNotEnded = true; // Game session loop control variable.
     cout << "Welcome to the Command Line Interface Chess Game!\n\n";
+    
     // Start game.
-    board gameBoard;
+    chessNS::Chess chessSession;
 
-    do { // Chess Game loop.
-        if (isGameNotEnded) {
-            isGameNotEnded = false; // False, game is now ended.
-        }
-    // Move pieces.
-
-    } while (isGameNotEnded);
-
-   HANDLE consoleClr;
-   consoleClr = GetStdHandle(STD_OUTPUT_HANDLE);
-   int colorCode = 7; // 7 Prints a black background and text colored white.
-   changeTextColor(consoleClr, colorCode); // Changes text so the final lines will be in the standard black and white color.
+    HANDLE consoleClr; // Console color handler needed to interact with the system's console window.
+    consoleClr = GetStdHandle(STD_OUTPUT_HANDLE); // Deals with std output handling. The windows.h system file in the board header is what this function comes from.
+    int colorCode = 7; // 7 Prints a black background and text colored white.
+    changeTextColor(consoleClr, colorCode); // Changes text so the final lines will be in the standard black and white color.
+    cout << "\n";
+    system("pause"); // Pauses the command prompt so that if the executable is run outside of the command prompt, it won't shut the screen immediately.
 
     return 0;
 }
