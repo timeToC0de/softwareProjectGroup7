@@ -1,13 +1,14 @@
 /*
 * Author(s): Luke P(Original Author), (Add Name here if you contribute(or fork) more to this file).
 * Date Created: End of April, 2022.
-* Dates Worked on: 5/3/2022, 5/4/2022, 5/5/2022, 5/6/2022, and(Add date(s) that you modified this file).
+* Dates Worked on: 5/3/2022, 5/4/2022, 5/5/2022, 5/6/2022, 5/15/2022, 5/16/2022 and(Add date(s) that you modified this file).
 * Course: SDEV265.
 * 
 Header file to Render game board for the chess CLI game.
 */
 #pragma once
 #include "row.h" // Used for the row class.
+//#include <windows.h> // Used for the functions that control the color of the output.
 
 // Needed to prevent ambiguity to the compiler around definitions of the methods of the classes.
 #ifndef H_board // Ensures that the directive is not inserted multiple times into a single .cpp file according to Microsoft (https://docs.microsoft.com/en-us/cpp/cpp/header-files-cpp?view=msvc-170)
@@ -26,6 +27,7 @@ protected:
 	bool isWhitesTurn;	      // This will alternate values and if true, it will cause the board to be printed as the white player's perspective, if false, it will print the board in the black player's perspective.
 	int boardColor;			  // Controls board boundary color.	
 
+	void printListOfCommands();
 	void printInstructionMenu();
 	void printPawnInstruction();
 	void printRookInstruction();
@@ -33,7 +35,6 @@ protected:
 	void printBishopInstruction();
 	void printQueenInstruction();
 	void printKingInstruction();
-	void printListOfCommands();
 
 	bool areBothPiecesSameColor(int firstPieceRow, int& firstPieceColumn, int& secondPieceRow, int& secondPieceColumn); // Used to compare the color of two pieces on the board.
 	void movePiece(int& firstRow, int& firstColumn, int& secondRow, int& secondColumn); // Used to transfer the piece from its current square to the designated square.
@@ -47,12 +48,9 @@ protected:
 		
 		initBoard(); // Initializes the board so it has the pieces in the appropriate places for the start of the game.
 		boardColor = chooseBoardBoundaryColor(); // Prompts user for a color for the board.
-		SetConsoleTextAttribute(console_color, 15);
-		std::cout << "\n\n   White's ";
-		SetConsoleTextAttribute(console_color, boardColor);
-		std::cout<< "Turn\n";
-		printBoard(boardColor, isWhitesTurn); // Prints the board based on how it was initialized by the initBoard function.
-		std::cout << "\n";
+
+		//printBoard(boardColor, isWhitesTurn); // Prints the board based on how it was initialized by the initBoard function.
+		//std::cout << "\n";
 	}
 
 private:
