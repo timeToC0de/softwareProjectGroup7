@@ -11,25 +11,19 @@ namespace chessNS { // NS stands for namespace. Used to remove the worry about h
 class Chess : protected board { // Chess is a subclass of the superclass, board. Chess is the class to contain functions to run a game of chess.
 public:
     Chess() : board() {
-        std::string moveOrCommand;
-        moveOrCommand = confirmMove();
-        std::cout << moveOrCommand;
-
-        if (isWhitesTurn)
-            isWhitesTurn = false; // False means black's perspective of the board will be printed.
-        else
-            isWhitesTurn = true; // True means white's perspective of the board will be printed.
-        
-        std::cout << "\n\n";
-        printBoard(boardColor, isWhitesTurn); // Prints board
-        // cout << board::chessBoard[1].rank[1].toChar();
+        gameLoop(); // Runs the game loop.
     }
 
 protected:
+
+    void gameLoop();
     std::string confirmMove();
     std::string getPlayerMove();
     std::string formatInput(std::string strInput);
-    void move(std::string& moveCommand);
+    bool move(std::string& moveInput, char fileNumbers[], const int& fileNumArrSize);
+    bool alternateTurn();
+    bool command(char& command, bool& isQInput, bool& isDraw);
+    bool draw();
 
 };// End of Chess class declarations.
 } // End of chessNS namespace.
