@@ -92,6 +92,13 @@ void board::printInstructionMenu() {
 		<< "\nIllegal moves will be rejected and you will be asked to move again.\n"
 		<< "To see these rules again during the chess session, simply type i and hit enter.\n\n";
 	system("pause");
+	cout << "\nFinally, here is a list of commands that may be used during the chess session.\n"
+		<< "It is important to note that the commands must only be 1 character long or else they won't be treated as commands.";
+	printListOfCommands();
+	
+	cout << "\nIMPORTANT: After you type a move or command, make sure to press enter.\n\n";
+
+	system("pause");
 }
 
 void board::printPawnInstruction() {
@@ -109,7 +116,7 @@ void board::printPawnInstruction() {
 }
 void board::printRookInstruction() {
 	cout << "Castles(aka rooks) are simple, they may move vertically or horizontally up to the square adjacent to one of your pieces.\n"
-		<< "If it is an opposing piece, you can have your castle move to their square to capture it if lies on the same rank or file.\n\n";
+		<< "If it is an opposing piece, you can have your castle move to that square to capture it if lies on the same rank or file.\n\n";
 }
 void board::printKnightInstruction() {
 	cout << "The knights are special. They are the only piece that can jump over other pieces.\n"\
@@ -117,7 +124,7 @@ void board::printKnightInstruction() {
 		<< "They can not land on one of your own pieces though.\n\n";
 }
 void board::printBishopInstruction() {
-	cout << "Bishops are also very simple, they are like castles but they may only move diagonally instead.\n\n";
+	cout << "Bishops are very simple, they are like castles but they may only move diagonally instead of left, up, right, and down.\n\n";
 }
 void board::printQueenInstruction() {
 	cout << "The Queen is able to move like both the castle and the bishop.\n";
@@ -127,8 +134,16 @@ void board::printKingInstruction() {
 		<< "The King can't move into check and any particular piece of yours\nis not allowed to make a move resulting in your king being in check.\n\n";
 }
 
-void board::printListOfCommands() {
-	cout << "The list of command you may enter into the move prompt are: ";
+// More commands may be added to this later. You must implement the commands in the command function in Chess.cpp.
+void board::printListOfCommands() { 
+	cout << "\nThe list of commands you may enter into the move prompt are: "
+		<< "\nC - This prints the command list.\n"
+		<< "D - This will ask the other player for a draw.\n"
+		<< "I - This will print the instruction menu again.\n"
+		<< "Q - This will quit the game and shutdown the console window.\n"
+		<< "More commands will be added to the game in upcoming version.\n\n";
+	system("pause");
+	cout << "\n";
 }
 
 // Allows the user to choose the color of the board.
@@ -199,10 +214,14 @@ void board::printBoard(int& bColor, bool& isWhiteTurn) {
 	int startingRow = 0;	// Whether the board is printed with the black pieces towards the player or the white pieces.
 	int endingRow = 8;		// Used to control how the board is printed.
 	SetConsoleTextAttribute(console_color, bColor); // Changes the text's color specified by the user to represent the board's borders.
-	printHorizontalLines(); // Prints the top horizontal line of the board.
 
 	if (isWhiteTurn) { // White's perspective of board.
 
+		SetConsoleTextAttribute(console_color, 15); // Makes the white's actually be colored white.
+		std::cout << "\n\n   White's ";
+		SetConsoleTextAttribute(console_color, boardColor);
+		std::cout << "Turn\n";
+		printHorizontalLines(); // Prints the top horizontal line of the board.
 		for (int boardSize = 0; boardSize < 8; boardSize++) { // Prints the rows of the board, as the white player's perspective.
 			cout << rankNumber << " "; // Prints Rank number of the row.
 			printRow(boardSize, bColor, isWhiteTurn); // Do not let board size be greater than 7 since it will cause a memory access violation or if it doesn't throw an error, it will still cause an out-of-bounds index.
@@ -221,6 +240,13 @@ void board::printBoard(int& bColor, bool& isWhiteTurn) {
 	else { // Black's perspective of board.
 		rankNumber = 1; // This needs to start at one instead of 8.
 		fileLetter = 'H'; // This needs to start at 'H' instead of at 'A'.
+
+		SetConsoleTextAttribute(console_color, 8); // Changes the text to gray.
+		std::cout << "\n\n   Black's ";
+		SetConsoleTextAttribute(console_color, boardColor);
+		std::cout << "Turn\n";
+		printHorizontalLines(); // Prints the top horizontal line of the board.
+
 		for (int boardSize = 7; boardSize >= 0; boardSize--) { // Prints the black player's perspective of the board.
 			cout << rankNumber << " "; // Prints Rank number of the row.
 			printRow(boardSize, bColor, isWhiteTurn); // Do not let board size be greater than 7 since it will cause a memory access violation or if it doesn't throw an error, it will still cause an out-of-bounds index.
@@ -237,9 +263,10 @@ void board::printBoard(int& bColor, bool& isWhiteTurn) {
 		}
 
 	}
-	
+	cout << "\n";
 	return;
 }
+
 
 // Prints the row based on the int value passed to the function.
 // Uses the chessBoard vector to print out the appropriate pieces.
@@ -331,12 +358,28 @@ void board::initBoard() {
 	} // End of for r
 } // End of initBoard function.
 
-void board::movePiece(int& firstRow, int& firstColumn, int& secondRow, int& secondColumn) {
-
+void board::movePiece(int& firstRank, int& firstFile, int& secondRank, int& secondFile) {
+	firstRank = 8 - firstRank; // Needed so that the board is modified correctly.
+	secondRank = 8 - secondRank;
 	boardSquare emptySquare; // Creates a square with a default " " as the pieceCode, pieceOn as false, and isWhite Piece as false.
-	if (chessBoard[firstRow].rank[firstColumn].isPieceOn); {
-		chessBoard[secondRow].rank[secondColumn] = chessBoard[firstRow].rank[firstColumn]; // Sets the 2nd square to have the state of the 1st square.
-		chessBoard[firstRow].rank[firstColumn] = emptySquare; // Sets the initial square to have empty square properties.
+
+	cout << "first rank: " << firstRank << ", " << "first file: " << firstFile << ", Piece on: " << chessBoard[firstRank].rank[firstFile].pieceOnSquare << ".\n";
+	if (chessBoard[firstRank].rank[firstFile].isPieceOn == true) {
+		cout << "pieceOn is true. \n";
+	}
+
+	cout << "second rank: " << secondRank << ", " << "second file: " << secondFile << ".\n";
+	//cout << "second rank: " << secondRank << ", " << "second file: " << secondFile << ", Piece on: " << chessBoard[secondRank].rank[secondFile].pieceOnSquare << ".\n";
+	if (chessBoard[secondRank].rank[secondFile].isPieceOn == true) {
+		cout << "pieceOn is true. \n";
+	}
+
+	if (chessBoard[firstRank].rank[firstFile].isPieceOn) {
+		chessBoard[secondRank].rank[secondFile] = chessBoard[firstRank].rank[firstFile]; // Sets the 2nd square to have the state of the 1st square.
+		chessBoard[firstRank].rank[firstFile] = emptySquare; // Sets the initial square to have empty square properties.
+	}
+	else {
+		cout << "No piece on the square you entered.\n";
 	}
 
 }
